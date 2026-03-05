@@ -6,13 +6,13 @@
   <title>Study Sessions</title>
   <style>
     :root {
-      --oatmeal: #F5F1E9;
-      --sage: #B2AC88;
-      --terracotta: #E2A690;
-      --sky: #D1E3E7;
-      --espresso: #3C2F2F;
-      --muted: #6d6161;
-      --paper: #fbf8f2;
+      --desert-rose: #D48C8C;
+      --soft-eucalyptus: #94A684;
+      --muted-cornflower: #A3B7D0;
+      --warm-parchment: #FDF8F5;
+      --deep-raisin: #4A3B3B;
+      --surface: #fffaf8;
+      --surface-soft: #fff4f2;
     }
 
     * {
@@ -21,24 +21,27 @@
 
     body {
       margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
       font-family: "Nunito", "Avenir Next Rounded", "Segoe UI Rounded", "Trebuchet MS", sans-serif;
-      color: var(--espresso);
+      color: var(--deep-raisin);
       background:
-        radial-gradient(circle at 8% 12%, #ffffff 0%, transparent 28%),
-        radial-gradient(circle at 92% 8%, #edf5f6 0%, transparent 24%),
-        linear-gradient(170deg, var(--oatmeal) 0%, #f8f5ee 58%, #f2eee4 100%);
+        radial-gradient(circle at 8% 12%, rgba(212, 140, 140, 0.12) 0%, transparent 28%),
+        radial-gradient(circle at 92% 8%, rgba(148, 166, 132, 0.14) 0%, transparent 24%),
+        linear-gradient(170deg, var(--warm-parchment) 0%, #fdf5f2 100%);
       min-height: 100vh;
     }
 
     .container {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 2.2rem 1.2rem 3rem;
+      width: min(980px, 100%);
+      margin: 0;
+      padding: 1.3rem 1.2rem 3rem;
     }
 
     .topbar {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       flex-wrap: wrap;
       gap: 0.6rem;
@@ -56,40 +59,41 @@
       border: none;
       border-radius: 999px;
       padding: 0.52rem 1rem;
-      color: var(--espresso);
-      background: #ffffffcc;
+      color: var(--deep-raisin);
+      background: #fff7f5;
       font-weight: 700;
       font-size: 0.9rem;
-      box-shadow: 0 10px 30px rgba(60, 47, 47, 0.08);
+      box-shadow: 0 12px 34px rgba(74, 59, 59, 0.08);
     }
 
     .nav-link.active {
-      background: linear-gradient(180deg, var(--sage), #a19876);
-      color: var(--espresso);
+      background: linear-gradient(180deg, var(--desert-rose), #cb8383);
+      color: var(--deep-raisin);
     }
 
     .hero,
     .card {
-      background: var(--paper);
+      background: var(--surface);
       border: none;
       border-radius: 30px;
-      box-shadow: 0 22px 60px rgba(60, 47, 47, 0.08);
+      box-shadow: 0 20px 52px rgba(74, 59, 59, 0.09);
     }
 
     .hero {
       padding: 1.7rem 1.8rem;
       margin-bottom: 1rem;
+      text-align: center;
     }
 
     h1 {
       margin: 0;
-      color: var(--espresso);
+      color: var(--deep-raisin);
       font-size: 2rem;
     }
 
     .subtitle {
       margin: 0.3rem 0 0;
-      color: var(--muted);
+      color: var(--deep-raisin);
     }
 
     .timer-wrap {
@@ -100,7 +104,7 @@
 
     .timer-label {
       font-size: 0.92rem;
-      color: var(--muted);
+      color: var(--deep-raisin);
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
@@ -109,12 +113,12 @@
       font-family: "Courier New", Courier, monospace;
       font-size: clamp(2.4rem, 8vw, 4.6rem);
       margin: 0.45rem 0;
-      color: var(--espresso);
+      color: var(--deep-raisin);
       font-weight: 700;
     }
 
     .session-meta {
-      color: var(--muted);
+      color: var(--deep-raisin);
       margin-bottom: 0.9rem;
     }
 
@@ -132,14 +136,14 @@
       padding: 0.78rem 1rem;
       font-size: 0.95rem;
       font-family: inherit;
-      box-shadow: 0 10px 34px rgba(60, 47, 47, 0.07);
+      box-shadow: 0 10px 34px rgba(74, 59, 59, 0.07);
     }
 
     button {
       cursor: pointer;
       font-weight: 700;
-      color: var(--espresso);
-      background: linear-gradient(180deg, var(--sage), #a09675);
+      color: var(--deep-raisin);
+      background: linear-gradient(180deg, var(--desert-rose), #cb8383);
     }
 
     button:disabled {
@@ -148,12 +152,12 @@
     }
 
     .secondary-btn {
-      background: linear-gradient(180deg, var(--sky), #bdd4d8);
-      color: var(--espresso);
+      background: linear-gradient(180deg, var(--muted-cornflower), #95aec8);
+      color: var(--deep-raisin);
     }
 
     .danger-btn {
-      background: linear-gradient(180deg, var(--terracotta), #d9927b);
+      background: linear-gradient(180deg, var(--soft-eucalyptus), #899b79);
     }
 
     .grid {
@@ -168,18 +172,18 @@
 
     .card h2 {
       margin: 0 0 0.7rem;
-      color: var(--espresso);
+      color: var(--deep-raisin);
       font-size: 1.16rem;
     }
 
     .status {
       font-size: 0.92rem;
-      color: var(--muted);
+      color: var(--deep-raisin);
       margin: 0;
     }
 
     .status.error {
-      color: #a14b4b;
+      color: var(--deep-raisin);
     }
 
     .session-list {
@@ -193,9 +197,9 @@
     .session-item {
       border: none;
       border-radius: 26px;
-      background: #fff;
+      background: var(--surface-soft);
       padding: 0.9rem 1rem;
-      box-shadow: 0 12px 35px rgba(60, 47, 47, 0.07);
+      box-shadow: 0 12px 35px rgba(74, 59, 59, 0.08);
     }
 
     .session-course {
@@ -214,13 +218,13 @@
 
     .small {
       font-size: 0.86rem;
-      color: var(--muted);
+      color: var(--deep-raisin);
     }
 
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(60, 47, 47, 0.32);
+      background: rgba(74, 59, 59, 0.28);
       display: none;
       align-items: center;
       justify-content: center;
@@ -234,21 +238,21 @@
 
     .modal {
       width: min(460px, 100%);
-      background: #fffdf8;
+      background: #fffaf7;
       border: none;
       border-radius: 30px;
-      box-shadow: 0 24px 70px rgba(60, 47, 47, 0.18);
+      box-shadow: 0 24px 70px rgba(74, 59, 59, 0.16);
       padding: 1.4rem;
     }
 
     .modal h3 {
       margin: 0 0 0.5rem;
-      color: var(--espresso);
+      color: var(--deep-raisin);
     }
 
     .modal p {
       margin: 0 0 0.85rem;
-      color: var(--muted);
+      color: var(--deep-raisin);
     }
 
     .modal-controls {
@@ -260,7 +264,7 @@
     }
 
     .ghost-btn {
-      color: var(--espresso);
+      color: var(--deep-raisin);
       background: #fff;
       border: none;
     }
@@ -278,16 +282,20 @@
 </head>
 <body>
   <main class="container">
+    <section class="hero">
+      <h1>Study Planner</h1>
+    </section>
+
     <div class="topbar">
       <div class="nav-links">
         <a class="nav-link" href="StudyPlanHome.html">Planner</a>
         <a class="nav-link active" href="Sessions.html">Sessions</a>
+        <a class="nav-link" href="History.html">History</a>
       </div>
     </div>
 
     <section class="hero">
       <h1>Sessions</h1>
-      <p class="subtitle">Run 25-minute focus sessions, reset as needed, then log what course you studied.</p>
     </section>
 
     <section class="card timer-wrap">

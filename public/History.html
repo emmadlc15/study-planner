@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study History</title>
+  <style>
+    :root {
+      --desert-rose: #D48C8C;
+      --soft-eucalyptus: #94A684;
+      --muted-cornflower: #A3B7D0;
+      --warm-parchment: #FDF8F5;
+      --deep-raisin: #4A3B3B;
+      --surface: #fffaf8;
+      --surface-soft: #fff4f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      font-family: "Nunito", "Avenir Next Rounded", "Segoe UI Rounded", "Trebuchet MS", sans-serif;
+      color: var(--deep-raisin);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(212, 140, 140, 0.12) 0%, transparent 28%),
+        radial-gradient(circle at 92% 8%, rgba(148, 166, 132, 0.14) 0%, transparent 24%),
+        linear-gradient(170deg, var(--warm-parchment) 0%, #fdf5f2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(980px, 100%);
+      margin: 0;
+      padding: 1.3rem 1.2rem 3rem;
+    }
+
+    .hero,
+    .card {
+      background: var(--surface);
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 20px 52px rgba(74, 59, 59, 0.09);
+    }
+
+    .hero {
+      padding: 1.7rem 1.8rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--deep-raisin);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      border: none;
+      border-radius: 999px;
+      padding: 0.52rem 1rem;
+      color: var(--deep-raisin);
+      background: #fff7f5;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 12px 34px rgba(74, 59, 59, 0.08);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(180deg, var(--desert-rose), #cb8383);
+      color: var(--deep-raisin);
+    }
+
+    .page-title {
+      margin-bottom: 1rem;
+      padding: 1.2rem 1.4rem;
+    }
+
+    .page-title h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .status {
+      margin: 0.8rem 0 0;
+      font-size: 0.92rem;
+      color: var(--deep-raisin);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .card {
+      padding: 1.3rem;
+    }
+
+    .card h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1.05rem;
+    }
+
+    .highlight {
+      background: var(--surface-soft);
+      border-radius: 26px;
+      padding: 0.8rem 0.9rem;
+      box-shadow: 0 12px 35px rgba(74, 59, 59, 0.07);
+      margin-top: 0.55rem;
+    }
+
+    .muted {
+      font-size: 0.88rem;
+      color: var(--deep-raisin);
+    }
+
+    .weekly-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .weekly-item {
+      border-radius: 26px;
+      background: var(--surface-soft);
+      padding: 0.95rem 1rem;
+      box-shadow: 0 12px 35px rgba(74, 59, 59, 0.07);
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .week-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.77rem;
+      padding: 0.28rem 0.66rem;
+      border-radius: 999px;
+      border: none;
+      color: var(--deep-raisin);
+      background: #e8efe3;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pill.quiz {
+      background: #e6eef7;
+    }
+
+    .pill.test {
+      background: #f3e6e6;
+    }
+
+    .course-minutes {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.9rem;
+    }
+
+    .course-line {
+      display: flex;
+      align-items: center;
+      gap: 0.42rem;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      flex: 0 0 12px;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1.1rem 0.8rem 2.2rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1>Study Planner</h1>
+    </section>
+
+    <div class="topbar">
+      <div class="nav-links">
+        <a class="nav-link" href="StudyPlanHome.html">Planner</a>
+        <a class="nav-link" href="Sessions.html">Sessions</a>
+        <a class="nav-link active" href="History.html">History</a>
+      </div>
+    </div>
+
+    <section class="card page-title">
+      <h2>History</h2>
+      <p class="status" id="status">Loading weekly history...</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h3>Most Time By Day</h3>
+        <div class="highlight" id="top-day">No session data yet.</div>
+      </article>
+      <article class="card">
+        <h3>Most Studied Course</h3>
+        <div class="highlight" id="top-course">No course session data yet.</div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h3>Weekly Rundown (Last 8 Weeks)</h3>
+      <ul id="weekly-list" class="weekly-list"></ul>
+    </section>
+  </main>
+
+  <script>
+    const weeklyListEl = document.getElementById("weekly-list");
+    const statusEl = document.getElementById("status");
+    const topDayEl = document.getElementById("top-day");
+    const topCourseEl = document.getElementById("top-course");
+    const WEEKS_TO_SHOW = 8;
+
+    function startOfWeek(date) {
+      const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const day = d.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      d.setDate(d.getDate() + diff);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    function addDays(date, days) {
+      const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      d.setDate(d.getDate() + days);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    function dateKeyLocal(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function formatWeekRange(start, endExclusive) {
+      const end = addDays(endExclusive, -1);
+      const startText = start.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+      const endText = end.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+      return `${startText} - ${endText}`;
+    }
+
+    function formatMinutes(minutes) {
+      return `${minutes.toFixed(1)} min`;
+    }
+
+    function buildWeekBuckets(weeksToShow) {
+      const currentWeekStart = startOfWeek(new Date());
+      const buckets = [];
+      for (let i = weeksToShow - 1; i >= 0; i -= 1) {
+        const weekStart = addDays(currentWeekStart, -(i * 7));
+        const weekEndExclusive = addDays(weekStart, 7);
+        buckets.push({
+          weekStart,
+          weekEndExclusive,
+        });
+      }
+      return buckets;
+    }
+
+    function computeHistory(coursework, sessions) {
+      const buckets = buildWeekBuckets(WEEKS_TO_SHOW);
+      const overallDayMinutes = new Map();
+      const overallCourseMinutes = new Map();
+
+      const weekly = buckets.map(({ weekStart, weekEndExclusive }) => {
+        const completed = { assignment: 0, quiz: 0, test: 0 };
+        const courseMinutes = new Map();
+        const dayMinutes = new Map();
+
+        coursework.forEach((item) => {
+          if (!item.completedAt) {
+            return;
+          }
+          const completedAt = new Date(item.completedAt);
+          if (completedAt >= weekStart && completedAt < weekEndExclusive) {
+            completed[item.type] = (completed[item.type] || 0) + 1;
+          }
+        });
+
+        sessions.forEach((session) => {
+          const startedAt = new Date(session.startedAt);
+          if (startedAt >= weekStart && startedAt < weekEndExclusive) {
+            const minutes = session.elapsedSeconds / 60;
+            const currentCourse = courseMinutes.get(session.courseId) || {
+              courseId: session.courseId,
+              name: session.courseName,
+              color: session.courseColor,
+              minutes: 0,
+            };
+            currentCourse.minutes += minutes;
+            courseMinutes.set(session.courseId, currentCourse);
+
+            const dayKey = dateKeyLocal(startedAt);
+            dayMinutes.set(dayKey, (dayMinutes.get(dayKey) || 0) + minutes);
+
+            overallDayMinutes.set(dayKey, (overallDayMinutes.get(dayKey) || 0) + minutes);
+
+            const overallCourse = overallCourseMinutes.get(session.courseId) || {
+              courseId: session.courseId,
+              name: session.courseName,
+              color: session.courseColor,
+              minutes: 0,
+            };
+            overallCourse.minutes += minutes;
+            overallCourseMinutes.set(session.courseId, overallCourse);
+          }
+        });
+
+        const minutesByCourse = [...courseMinutes.values()].sort((a, b) => b.minutes - a.minutes);
+        const topDayEntry = [...dayMinutes.entries()].sort((a, b) => b[1] - a[1])[0] || null;
+        const topCourse = minutesByCourse[0] || null;
+
+        return {
+          weekLabel: formatWeekRange(weekStart, weekEndExclusive),
+          completed,
+          minutesByCourse,
+          topDay: topDayEntry ? { date: topDayEntry[0], minutes: topDayEntry[1] } : null,
+          topCourse,
+        };
+      });
+
+      const overallTopDayEntry = [...overallDayMinutes.entries()].sort((a, b) => b[1] - a[1])[0] || null;
+      const overallTopCourse = [...overallCourseMinutes.values()].sort((a, b) => b.minutes - a.minutes)[0] || null;
+
+      return {
+        weekly,
+        overallTopDay: overallTopDayEntry ? { date: overallTopDayEntry[0], minutes: overallTopDayEntry[1] } : null,
+        overallTopCourse,
+      };
+    }
+
+    function renderTopSummary(history) {
+      if (history.overallTopDay) {
+        const dayDate = new Date(`${history.overallTopDay.date}T00:00:00`);
+        topDayEl.textContent = `${dayDate.toLocaleDateString(undefined, {
+          weekday: "long",
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })} (${formatMinutes(history.overallTopDay.minutes)})`;
+      } else {
+        topDayEl.textContent = "No session data yet.";
+      }
+
+      if (history.overallTopCourse) {
+        topCourseEl.innerHTML = `<span class="swatch" style="background:${history.overallTopCourse.color}"></span> ${history.overallTopCourse.name} (${formatMinutes(history.overallTopCourse.minutes)})`;
+      } else {
+        topCourseEl.textContent = "No course session data yet.";
+      }
+    }
+
+    function renderWeekly(history) {
+      weeklyListEl.innerHTML = "";
+
+      history.weekly.forEach((week) => {
+        const li = document.createElement("li");
+        li.className = "weekly-item";
+
+        const totalCompleted = week.completed.assignment + week.completed.quiz + week.completed.test;
+        const topDayText = week.topDay
+          ? `${new Date(`${week.topDay.date}T00:00:00`).toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" })} (${formatMinutes(week.topDay.minutes)})`
+          : "No session data";
+        const topCourseText = week.topCourse
+          ? `${week.topCourse.name} (${formatMinutes(week.topCourse.minutes)})`
+          : "No course session data";
+
+        const coursesMarkup = week.minutesByCourse.length
+          ? week.minutesByCourse
+            .map((course) => `<li class="course-line"><span class="swatch" style="background:${course.color}"></span>${course.name}: ${formatMinutes(course.minutes)}</li>`)
+            .join("")
+          : '<li class="muted">No logged session minutes for this week.</li>';
+
+        li.innerHTML = `
+          <div class="week-head">
+            <strong>${week.weekLabel}</strong>
+            <span class="muted">Completed: ${totalCompleted}</span>
+          </div>
+          <div class="pill-row">
+            <span class="pill">Assignments: ${week.completed.assignment}</span>
+            <span class="pill quiz">Quizzes: ${week.completed.quiz}</span>
+            <span class="pill test">Tests: ${week.completed.test}</span>
+          </div>
+          <ul class="course-minutes">${coursesMarkup}</ul>
+          <div class="muted">Most study time day: ${topDayText}</div>
+          <div class="muted">Most studied course: ${topCourseText}</div>
+        `;
+        weeklyListEl.appendChild(li);
+      });
+    }
+
+    async function loadHistory() {
+      statusEl.textContent = "Loading weekly history...";
+      try {
+        const [courseworkRes, sessionsRes] = await Promise.all([
+          fetch("/api/coursework?limit=5000"),
+          fetch("/api/sessions?limit=5000"),
+        ]);
+
+        if (!courseworkRes.ok || !sessionsRes.ok) {
+          throw new Error("Failed to fetch history data");
+        }
+
+        const courseworkRaw = await courseworkRes.json();
+        const sessionsRaw = await sessionsRes.json();
+
+        const coursework = courseworkRaw.map((item) => ({
+          id: Number(item.id),
+          courseId: Number(item.course_id),
+          type: item.item_type,
+          completedAt: item.completed_at,
+        }));
+
+        const sessions = sessionsRaw.map((session) => ({
+          courseId: Number(session.course_id),
+          courseName: session.course_name,
+          courseColor: session.course_color,
+          startedAt: session.started_at,
+          elapsedSeconds: Number(session.elapsed_seconds),
+        }));
+
+        const history = computeHistory(coursework, sessions);
+        renderTopSummary(history);
+        renderWeekly(history);
+        statusEl.textContent = "History loaded.";
+      } catch (error) {
+        statusEl.textContent = "Unable to load history right now.";
+        topDayEl.textContent = "No session data yet.";
+        topCourseEl.textContent = "No course session data yet.";
+        weeklyListEl.innerHTML = '<li class="weekly-item">No weekly history available.</li>';
+      }
+    }
+
+    loadHistory();
+  </script>
+</body>
+</html>

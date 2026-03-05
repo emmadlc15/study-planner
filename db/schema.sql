@@ -21,6 +21,7 @@ CREATE TABLE coursework_items (
   item_type VARCHAR(20) NOT NULL CHECK (item_type IN ('assignment', 'quiz', 'test')),
   title VARCHAR(160) NOT NULL,
   due_date DATE NOT NULL,
+  completed_at TIMESTAMP NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
@@ -36,5 +37,6 @@ CREATE TABLE study_sessions (
 
 CREATE INDEX idx_coursework_course_id ON coursework_items(course_id);
 CREATE INDEX idx_coursework_due_date ON coursework_items(due_date);
+CREATE INDEX idx_coursework_completed_at ON coursework_items(completed_at);
 CREATE INDEX idx_study_sessions_course_id ON study_sessions(course_id);
 CREATE INDEX idx_study_sessions_started_at ON study_sessions(started_at);

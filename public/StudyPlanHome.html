@@ -6,13 +6,13 @@
   <title>Study Planner</title>
   <style>
     :root {
-      --oatmeal: #F5F1E9;
-      --sage: #B2AC88;
-      --terracotta: #E2A690;
-      --sky: #D1E3E7;
-      --espresso: #3C2F2F;
-      --muted: #6b5e5e;
-      --paper: #fbf8f2;
+      --desert-rose: #D48C8C;
+      --soft-eucalyptus: #94A684;
+      --muted-cornflower: #A3B7D0;
+      --warm-parchment: #FDF8F5;
+      --deep-raisin: #4A3B3B;
+      --surface: #fffaf8;
+      --surface-soft: #fff5f5;
     }
 
     * {
@@ -21,25 +21,28 @@
 
     body {
       margin: 0;
-      color: var(--espresso);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      color: var(--deep-raisin);
       background:
-        radial-gradient(circle at 12% 9%, #ffffff 0%, transparent 30%),
-        radial-gradient(circle at 92% 12%, #eef5f6 0%, transparent 26%),
-        linear-gradient(170deg, var(--oatmeal) 0%, #f8f5ee 52%, #f2eee4 100%);
+        radial-gradient(circle at 10% 8%, rgba(212, 140, 140, 0.12) 0%, transparent 32%),
+        radial-gradient(circle at 90% 10%, rgba(148, 166, 132, 0.14) 0%, transparent 30%),
+        linear-gradient(170deg, var(--warm-parchment) 0%, #fdf6f2 100%);
       font-family: "Nunito", "Avenir Next Rounded", "Segoe UI Rounded", "Trebuchet MS", sans-serif;
       min-height: 100vh;
     }
 
     .container {
-      max-width: 1150px;
-      margin: 0 auto;
-      padding: 2.6rem 1.3rem 3.6rem;
+      width: min(1150px, 100%);
+      margin: 0;
+      padding: 1.3rem 1.3rem 3.6rem;
     }
 
     .topbar {
       display: flex;
-      justify-content: flex-end;
-      margin-bottom: 0.75rem;
+      justify-content: center;
+      margin-bottom: 1rem;
     }
 
     .nav-links {
@@ -53,37 +56,38 @@
       border: none;
       border-radius: 999px;
       padding: 0.5rem 1rem;
-      color: var(--espresso);
-      background: #ffffffc9;
+      color: var(--deep-raisin);
+      background: #fff7f5;
       font-weight: 700;
       font-size: 0.9rem;
-      box-shadow: 0 10px 30px rgba(60, 47, 47, 0.08);
+      box-shadow: 0 16px 40px rgba(74, 59, 59, 0.08);
     }
 
     .nav-link.active {
-      background: linear-gradient(180deg, var(--sage), #9f9877);
-      color: var(--espresso);
+      background: linear-gradient(180deg, var(--desert-rose), #cb8282);
+      color: var(--deep-raisin);
     }
 
     .hero {
       margin-bottom: 1rem;
       padding: 1.8rem 1.9rem;
       border: none;
-      border-radius: 30px;
-      background: linear-gradient(120deg, #ffffffd9, #fbf7ef);
-      box-shadow: 0 20px 60px rgba(60, 47, 47, 0.09);
+      border-radius: 32px;
+      background: linear-gradient(120deg, #fffdfc, #fff2f2);
+      box-shadow: 0 24px 60px rgba(74, 59, 59, 0.1);
+      text-align: center;
     }
 
     h1 {
       margin: 0;
       font-size: 2.1rem;
-      color: var(--espresso);
+      color: var(--deep-raisin);
       letter-spacing: 0.2px;
     }
 
     .subtitle {
       margin: 0.4rem 0 0;
-      color: var(--muted);
+      color: var(--deep-raisin);
       font-size: 1rem;
     }
 
@@ -94,17 +98,17 @@
     }
 
     .card {
-      background: var(--paper);
+      background: var(--surface);
       border: none;
       border-radius: 30px;
       padding: 1.4rem;
-      box-shadow: 0 22px 65px rgba(60, 47, 47, 0.08);
+      box-shadow: 0 22px 58px rgba(74, 59, 59, 0.09);
     }
 
     .card h2 {
       margin: 0 0 0.8rem;
       font-size: 1.16rem;
-      color: var(--espresso);
+      color: var(--deep-raisin);
     }
 
     form {
@@ -127,10 +131,10 @@
       border-radius: 28px;
       padding: 0.82rem 1rem;
       font-size: 0.95rem;
-      background: #fffdf9;
-      color: var(--espresso);
+      background: #fff9f7;
+      color: var(--deep-raisin);
       font-family: inherit;
-      box-shadow: 0 10px 35px rgba(60, 47, 47, 0.06);
+      box-shadow: 0 12px 35px rgba(74, 59, 59, 0.07);
     }
 
     input[type="color"] {
@@ -142,8 +146,8 @@
     button {
       font-weight: 700;
       cursor: pointer;
-      background: linear-gradient(180deg, var(--sage), #9f9877);
-      color: var(--espresso);
+      background: linear-gradient(180deg, var(--desert-rose), #cb8282);
+      color: var(--deep-raisin);
       transition: transform 120ms ease, filter 120ms ease;
     }
 
@@ -156,8 +160,16 @@
       width: auto;
       font-size: 0.8rem;
       padding: 0.52rem 0.9rem;
-      background: linear-gradient(180deg, var(--terracotta), #d88f77);
+      background: linear-gradient(180deg, var(--muted-cornflower), #93abc8);
       margin-left: 0.6rem;
+      border-radius: 999px;
+    }
+
+    .secondary-btn {
+      width: auto;
+      font-size: 0.8rem;
+      padding: 0.52rem 0.9rem;
+      background: linear-gradient(180deg, var(--soft-eucalyptus), #879976);
       border-radius: 999px;
     }
 
@@ -170,7 +182,7 @@
     }
 
     .list li {
-      background: #fff;
+      background: var(--surface-soft);
       border: none;
       border-radius: 26px;
       padding: 0.92rem 1rem;
@@ -178,7 +190,11 @@
       justify-content: space-between;
       align-items: center;
       gap: 0.6rem;
-      box-shadow: 0 12px 36px rgba(60, 47, 47, 0.07);
+      box-shadow: 0 14px 34px rgba(74, 59, 59, 0.08);
+    }
+
+    .list li.completed {
+      opacity: 0.78;
     }
 
     .course-meta,
@@ -204,13 +220,20 @@
       text-transform: uppercase;
       letter-spacing: 0.04em;
       border: none;
-      background: #f4eee4;
-      color: #6a5c53;
+      background: #e8efe3;
+      color: var(--deep-raisin);
     }
 
     .muted {
-      color: var(--muted);
+      color: var(--deep-raisin);
       font-size: 0.91rem;
+    }
+
+    .event-actions {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .calendar-card {
@@ -237,23 +260,23 @@
     .tool-btn {
       width: auto;
       padding: 0.62rem 1rem;
-      background: #ffffffd9;
-      color: var(--espresso);
+      background: #fff7f4;
+      color: var(--deep-raisin);
       border: none;
       font-weight: 600;
       border-radius: 999px;
     }
 
     .tool-btn.active {
-      background: linear-gradient(180deg, var(--sky), #bdd5db);
-      color: var(--espresso);
+      background: linear-gradient(180deg, var(--muted-cornflower), #95aec9);
+      color: var(--deep-raisin);
     }
 
     #calendar-title {
       margin: 0;
       font-size: 1.1rem;
       min-width: 180px;
-      color: var(--espresso);
+      color: var(--deep-raisin);
     }
 
     .calendar-weekdays,
@@ -266,7 +289,7 @@
     .weekday {
       text-align: center;
       font-size: 0.82rem;
-      color: #574c42;
+      color: var(--deep-raisin);
       font-weight: 700;
       letter-spacing: 0.04em;
       padding: 0.2rem;
@@ -274,31 +297,31 @@
 
     .day-cell {
       min-height: 128px;
-      background: #fffdf8;
+      background: var(--surface-soft);
       border: none;
       border-radius: 26px;
       padding: 0.7rem;
       display: flex;
       flex-direction: column;
       gap: 0.42rem;
-      box-shadow: 0 16px 42px rgba(60, 47, 47, 0.07);
+      box-shadow: 0 16px 42px rgba(74, 59, 59, 0.08);
     }
 
     .day-cell.today {
       box-shadow:
-        0 16px 42px rgba(60, 47, 47, 0.07),
-        inset 0 0 0 3px var(--terracotta);
+        0 16px 42px rgba(74, 59, 59, 0.08),
+        inset 0 0 0 3px var(--desert-rose);
     }
 
     .day-cell.outside {
-      background: #f6f1e8;
-      color: #9a8f82;
+      background: #f8efed;
+      color: var(--deep-raisin);
     }
 
     .day-number {
       font-weight: 700;
       font-size: 0.9rem;
-      color: #4a3f35;
+      color: var(--deep-raisin);
     }
 
     .calendar-event {
@@ -309,7 +332,7 @@
       padding: 0.4rem 0.55rem;
       line-height: 1.2;
       background: #ffffff;
-      box-shadow: 0 8px 25px rgba(60, 47, 47, 0.07);
+      box-shadow: 0 8px 25px rgba(74, 59, 59, 0.08);
     }
 
     .calendar-event-title {
@@ -321,8 +344,22 @@
     }
 
     .calendar-event-meta {
-      color: #5f564d;
+      color: var(--deep-raisin);
       font-size: 0.74rem;
+    }
+
+    .form-message {
+      min-height: 1.2rem;
+      margin-top: 0.65rem;
+      font-size: 0.9rem;
+    }
+
+    .form-message.error {
+      color: #8f2f2f;
+    }
+
+    .form-message.success {
+      color: #2f6b46;
     }
 
     @media (max-width: 860px) {
@@ -360,17 +397,17 @@
 </head>
 <body>
   <main class="container">
+    <section class="hero">
+      <h1>Study Planner</h1>
+    </section>
+
     <div class="topbar">
       <div class="nav-links">
         <a class="nav-link active" href="/">Planner</a>
         <a class="nav-link" href="Sessions.html">Sessions</a>
+        <a class="nav-link" href="History.html">History</a>
       </div>
     </div>
-
-    <section class="hero">
-      <h1>Earthy Study Planner</h1>
-      <p class="subtitle">Color-code your courses and view every assignment, quiz, and test in a calm weekly or monthly calendar.</p>
-    </section>
 
     <section class="grid">
       <article class="card">
@@ -389,6 +426,7 @@
             <input id="course-color" type="color" value="#7A9E7E" required />
           </div>
           <button type="submit">Add Course</button>
+          <p id="course-form-message" class="form-message" role="status" aria-live="polite"></p>
         </form>
       </article>
 
@@ -459,6 +497,7 @@
     const eventList = document.getElementById("event-list");
     const eventCourseSelect = document.getElementById("event-course");
     const courseColorInput = document.getElementById("course-color");
+    const courseFormMessage = document.getElementById("course-form-message");
 
     const calendarTitle = document.getElementById("calendar-title");
     const calendarGrid = document.getElementById("calendar-grid");
@@ -470,17 +509,29 @@
     const todayBtn = document.getElementById("today-btn");
 
     const weekdayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const API_BASE = window.location.protocol === "file:" ? "http://localhost:3000" : "";
 
     let courses = [];
     let events = [];
     let nextCourseId = 1;
-    let nextEventId = 1;
     let currentView = "month";
     let calendarDate = new Date();
 
     const earthyCoursePalette = [
       "#7A9E7E", "#9B7E61", "#6D8C7D", "#8A6F50", "#5D7A65", "#8F9C6A", "#AA8864", "#6D7F8A"
     ];
+
+    function setCourseFormMessage(message, type = "") {
+      courseFormMessage.textContent = message;
+      courseFormMessage.className = "form-message";
+      if (type) {
+        courseFormMessage.classList.add(type);
+      }
+    }
+
+    function apiUrl(path) {
+      return `${API_BASE}${path}`;
+    }
 
     function toDateKey(date) {
       const year = date.getFullYear();
@@ -492,6 +543,22 @@
     function parseDateKey(dateKey) {
       const [y, m, d] = dateKey.split("-").map(Number);
       return new Date(y, m - 1, d);
+    }
+
+    function normalizeDateKey(value) {
+      if (typeof value !== "string" || !value.trim()) {
+        return "";
+      }
+      const trimmed = value.trim();
+      const matched = trimmed.match(/^(\d{4}-\d{2}-\d{2})/);
+      if (matched) {
+        return matched[1];
+      }
+      const parsed = new Date(trimmed);
+      if (Number.isNaN(parsed.getTime())) {
+        return "";
+      }
+      return toDateKey(parsed);
     }
 
     function getStartOfWeek(date) {
@@ -525,7 +592,7 @@
 
     async function loadCoursesFromApi() {
       try {
-        const response = await fetch("/api/courses");
+        const response = await fetch(apiUrl("/api/courses"));
         if (!response.ok) {
           throw new Error("Failed to load courses");
         }
@@ -541,6 +608,26 @@
       } catch (error) {
         courses = [];
         nextCourseId = 1;
+      }
+    }
+
+    async function loadCourseworkFromApi() {
+      try {
+        const response = await fetch(apiUrl("/api/coursework?limit=5000"));
+        if (!response.ok) {
+          throw new Error("Failed to load coursework items");
+        }
+        const data = await response.json();
+        events = data.map((item) => ({
+          id: Number(item.id),
+          courseId: Number(item.course_id),
+          type: item.item_type,
+          title: item.title,
+          date: normalizeDateKey(item.due_date),
+          completedAt: item.completed_at,
+        })).filter((item) => item.date);
+      } catch (error) {
+        events = [];
       }
     }
 
@@ -661,12 +748,12 @@
         deleteBtn.type = "button";
         deleteBtn.addEventListener("click", async () => {
           try {
-            const response = await fetch(`/api/courses/${course.id}`, { method: "DELETE" });
+            const response = await fetch(apiUrl(`/api/courses/${course.id}`), { method: "DELETE" });
             if (!response.ok) {
               throw new Error("Failed to delete course");
             }
             courses = courses.filter((c) => c.id !== course.id);
-            events = events.filter((e) => e.courseId !== course.id);
+            await loadCourseworkFromApi();
             renderCourses();
             renderEvents();
             renderCalendar();
@@ -698,6 +785,9 @@
       sortedEvents.forEach((event) => {
         const course = courseById(event.courseId);
         const li = document.createElement("li");
+        if (event.completedAt) {
+          li.classList.add("completed");
+        }
 
         const left = document.createElement("div");
         left.className = "event-meta";
@@ -705,21 +795,57 @@
           <span class="swatch" style="background:${course ? course.color : "#808080"}"></span>
           <strong>${event.title}</strong>
           <span class="pill">${event.type}</span>
-          <span class="muted">${course ? course.name : "Unknown"} · ${event.date}</span>
+          <span class="muted">${course ? course.name : "Unknown"} · ${event.date}${event.completedAt ? " · Completed" : ""}</span>
         `;
+
+        const actions = document.createElement("div");
+        actions.className = "event-actions";
+
+        const completeBtn = document.createElement("button");
+        completeBtn.className = "secondary-btn";
+        completeBtn.type = "button";
+        completeBtn.textContent = event.completedAt ? "Undo" : "Complete";
+        completeBtn.addEventListener("click", async () => {
+          try {
+            const response = await fetch(apiUrl(`/api/coursework/${event.id}/complete`), {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ completed: !event.completedAt }),
+            });
+            if (!response.ok) {
+              throw new Error("Failed to update completion");
+            }
+            const updated = await response.json();
+            event.completedAt = updated.completed_at;
+            renderEvents();
+            renderCalendar();
+          } catch (error) {
+            // Keep existing UI if update fails.
+          }
+        });
 
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "danger-btn";
         deleteBtn.type = "button";
         deleteBtn.textContent = "Delete";
-        deleteBtn.addEventListener("click", () => {
-          events = events.filter((e) => e.id !== event.id);
-          renderEvents();
-          renderCalendar();
+        deleteBtn.addEventListener("click", async () => {
+          try {
+            const response = await fetch(apiUrl(`/api/coursework/${event.id}`), { method: "DELETE" });
+            if (!response.ok) {
+              throw new Error("Failed to delete coursework item");
+            }
+            events = events.filter((e) => e.id !== event.id);
+            renderEvents();
+            renderCalendar();
+          } catch (error) {
+            // Keep existing UI if delete fails.
+          }
         });
 
+        actions.appendChild(completeBtn);
+        actions.appendChild(deleteBtn);
         li.appendChild(left);
-        li.appendChild(deleteBtn);
+        li.appendChild(actions);
         eventList.appendChild(li);
       });
     }
@@ -731,11 +857,13 @@
       const color = courseColorInput.value;
 
       if (!name || Number.isNaN(grade) || grade < 0 || grade > 100 || !color) {
+        setCourseFormMessage("Enter a course name, grade from 0 to 100, and a color.", "error");
         return;
       }
 
       try {
-        const response = await fetch("/api/courses", {
+        setCourseFormMessage("");
+        const response = await fetch(apiUrl("/api/courses"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -746,7 +874,8 @@
         });
 
         if (!response.ok) {
-          throw new Error("Failed to create course");
+          const payload = await response.json().catch(() => null);
+          throw new Error(payload && payload.error ? payload.error : "Failed to create course");
         }
 
         const created = await response.json();
@@ -760,15 +889,22 @@
         nextCourseId = Math.max(nextCourseId, Number(created.id) + 1);
         courseForm.reset();
         courseColorInput.value = earthyCoursePalette[courses.length % earthyCoursePalette.length];
+        setCourseFormMessage("Course added.", "success");
         renderCourses();
         renderEvents();
         renderCalendar();
       } catch (error) {
-        // Keep form values in place if request fails.
+        const message = error && error.message ? error.message : "";
+        const looksLikeNetworkError = message.includes("Failed to fetch") || message.includes("NetworkError");
+        if (looksLikeNetworkError) {
+          setCourseFormMessage("Cannot reach the API server. Start it with `node server.js` and open http://localhost:3000.", "error");
+        } else {
+          setCourseFormMessage(message || "Could not add course right now.", "error");
+        }
       }
     });
 
-    eventForm.addEventListener("submit", (e) => {
+    eventForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const courseId = Number(document.getElementById("event-course").value);
@@ -780,10 +916,37 @@
         return;
       }
 
-      events.push({ id: nextEventId++, courseId, type, title, date });
-      eventForm.reset();
-      renderEvents();
-      renderCalendar();
+      try {
+        const response = await fetch(apiUrl("/api/coursework"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            courseId,
+            itemType: type,
+            title,
+            dueDate: date,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to create coursework item");
+        }
+
+        const created = await response.json();
+        events.push({
+          id: Number(created.id),
+          courseId: Number(created.course_id),
+          type: created.item_type,
+          title: created.title,
+          date: normalizeDateKey(created.due_date),
+          completedAt: created.completed_at,
+        });
+        eventForm.reset();
+        renderEvents();
+        renderCalendar();
+      } catch (error) {
+        // Keep form values in place if request fails.
+      }
     });
 
     monthViewBtn.addEventListener("click", () => {
@@ -826,6 +989,7 @@
     async function initializePlanner() {
       courseColorInput.value = earthyCoursePalette[0];
       await loadCoursesFromApi();
+      await loadCourseworkFromApi();
       renderCourses();
       renderEvents();
       renderCalendar();

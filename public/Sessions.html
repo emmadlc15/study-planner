@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Sessions</title>
+  <style>
+    :root {
+      --oatmeal: #F5F1E9;
+      --sage: #B2AC88;
+      --terracotta: #E2A690;
+      --sky: #D1E3E7;
+      --espresso: #3C2F2F;
+      --muted: #6d6161;
+      --paper: #fbf8f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Nunito", "Avenir Next Rounded", "Segoe UI Rounded", "Trebuchet MS", sans-serif;
+      color: var(--espresso);
+      background:
+        radial-gradient(circle at 8% 12%, #ffffff 0%, transparent 28%),
+        radial-gradient(circle at 92% 8%, #edf5f6 0%, transparent 24%),
+        linear-gradient(170deg, var(--oatmeal) 0%, #f8f5ee 58%, #f2eee4 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 2.2rem 1.2rem 3rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      border: none;
+      border-radius: 999px;
+      padding: 0.52rem 1rem;
+      color: var(--espresso);
+      background: #ffffffcc;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(60, 47, 47, 0.08);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(180deg, var(--sage), #a19876);
+      color: var(--espresso);
+    }
+
+    .hero,
+    .card {
+      background: var(--paper);
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 22px 60px rgba(60, 47, 47, 0.08);
+    }
+
+    .hero {
+      padding: 1.7rem 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--espresso);
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      margin: 0.3rem 0 0;
+      color: var(--muted);
+    }
+
+    .timer-wrap {
+      text-align: center;
+      padding: 1.35rem 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .timer-label {
+      font-size: 0.92rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .timer {
+      font-family: "Courier New", Courier, monospace;
+      font-size: clamp(2.4rem, 8vw, 4.6rem);
+      margin: 0.45rem 0;
+      color: var(--espresso);
+      font-weight: 700;
+    }
+
+    .session-meta {
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    button,
+    select {
+      border-radius: 28px;
+      border: none;
+      padding: 0.78rem 1rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      box-shadow: 0 10px 34px rgba(60, 47, 47, 0.07);
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--espresso);
+      background: linear-gradient(180deg, var(--sage), #a09675);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .secondary-btn {
+      background: linear-gradient(180deg, var(--sky), #bdd4d8);
+      color: var(--espresso);
+    }
+
+    .danger-btn {
+      background: linear-gradient(180deg, var(--terracotta), #d9927b);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      padding: 1.4rem;
+    }
+
+    .card h2 {
+      margin: 0 0 0.7rem;
+      color: var(--espresso);
+      font-size: 1.16rem;
+    }
+
+    .status {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .status.error {
+      color: #a14b4b;
+    }
+
+    .session-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .session-item {
+      border: none;
+      border-radius: 26px;
+      background: #fff;
+      padding: 0.9rem 1rem;
+      box-shadow: 0 12px 35px rgba(60, 47, 47, 0.07);
+    }
+
+    .session-course {
+      display: flex;
+      align-items: center;
+      gap: 0.42rem;
+      font-weight: 700;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .small {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(60, 47, 47, 0.32);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 20;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(460px, 100%);
+      background: #fffdf8;
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 24px 70px rgba(60, 47, 47, 0.18);
+      padding: 1.4rem;
+    }
+
+    .modal h3 {
+      margin: 0 0 0.5rem;
+      color: var(--espresso);
+    }
+
+    .modal p {
+      margin: 0 0 0.85rem;
+      color: var(--muted);
+    }
+
+    .modal-controls {
+      display: flex;
+      gap: 0.55rem;
+      justify-content: flex-end;
+      margin-top: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .ghost-btn {
+      color: var(--espresso);
+      background: #fff;
+      border: none;
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        padding: 1.3rem 0.8rem 2.2rem;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <div class="nav-links">
+        <a class="nav-link" href="/">Planner</a>
+        <a class="nav-link active" href="/sessions">Sessions</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Sessions</h1>
+      <p class="subtitle">Run 25-minute focus sessions, reset as needed, then log what course you studied.</p>
+    </section>
+
+    <section class="card timer-wrap">
+      <div class="timer-label">Active Focus Timer</div>
+      <div id="timer-display" class="timer">25:00</div>
+      <p class="session-meta" id="session-meta">No active session. Start when ready.</p>
+      <div class="controls">
+        <button id="start-btn" type="button">Start Session</button>
+        <button id="reset-btn" class="secondary-btn" type="button" disabled>Reset Timer</button>
+        <button id="end-btn" class="danger-btn" type="button" disabled>End Session</button>
+      </div>
+      <p id="status" class="status" style="margin-top: 0.8rem;"></p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Session Query</h2>
+        <p class="small">Most recent logged sessions.</p>
+        <button id="refresh-sessions-btn" type="button" style="margin-bottom: 0.8rem; width:auto;">Refresh Log</button>
+        <ul id="session-list" class="session-list"></ul>
+      </article>
+    </section>
+  </main>
+
+  <div id="log-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="log-title">
+    <div class="modal">
+      <h3 id="log-title">Log Session</h3>
+      <p>Session ended. Select the course this studying was for.</p>
+      <label for="log-course">Course</label>
+      <select id="log-course"></select>
+      <p id="log-error" class="status error" style="margin-top:0.6rem;"></p>
+      <div class="modal-controls">
+        <button id="cancel-log-btn" class="ghost-btn" type="button">Cancel</button>
+        <button id="save-log-btn" type="button">Save Log</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SESSION_SECONDS = 25 * 60;
+
+    const timerDisplay = document.getElementById("timer-display");
+    const sessionMeta = document.getElementById("session-meta");
+    const statusEl = document.getElementById("status");
+
+    const startBtn = document.getElementById("start-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const endBtn = document.getElementById("end-btn");
+    const refreshSessionsBtn = document.getElementById("refresh-sessions-btn");
+
+    const logModal = document.getElementById("log-modal");
+    const logCourseSelect = document.getElementById("log-course");
+    const logErrorEl = document.getElementById("log-error");
+    const cancelLogBtn = document.getElementById("cancel-log-btn");
+    const saveLogBtn = document.getElementById("save-log-btn");
+
+    const sessionList = document.getElementById("session-list");
+
+    let courses = [];
+    let intervalId = null;
+    let remainingSeconds = SESSION_SECONDS;
+    let activeSession = null;
+
+    function formatClock(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    }
+
+    function formatDateTime(isoDate) {
+      const d = new Date(isoDate);
+      return d.toLocaleString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    }
+
+    function setStatus(message, isError = false) {
+      statusEl.textContent = message || "";
+      statusEl.classList.toggle("error", isError);
+    }
+
+    function updateTimerUI() {
+      timerDisplay.textContent = formatClock(remainingSeconds);
+
+      if (!activeSession) {
+        sessionMeta.textContent = "No active session. Start when ready.";
+      } else {
+        const startedAtText = new Date(activeSession.startedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+        sessionMeta.textContent = `Started at ${startedAtText} · Resets: ${activeSession.resetCount}`;
+      }
+
+      startBtn.disabled = Boolean(activeSession);
+      resetBtn.disabled = !activeSession;
+      endBtn.disabled = !activeSession;
+    }
+
+    function stopTimerInterval() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    async function fetchCourses() {
+      try {
+        const response = await fetch("/api/courses");
+        if (!response.ok) {
+          throw new Error("Failed to load courses");
+        }
+        courses = await response.json();
+      } catch (error) {
+        courses = [];
+      }
+      renderCourseOptions();
+    }
+
+    function renderCourseOptions() {
+      logCourseSelect.innerHTML = "";
+
+      if (!courses.length) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "No courses found";
+        logCourseSelect.appendChild(option);
+        saveLogBtn.disabled = true;
+        return;
+      }
+
+      saveLogBtn.disabled = false;
+      courses.forEach((course) => {
+        const option = document.createElement("option");
+        option.value = course.id;
+        option.textContent = course.course_name;
+        logCourseSelect.appendChild(option);
+      });
+    }
+
+    function startSession() {
+      activeSession = {
+        startedAt: new Date().toISOString(),
+        resetCount: 0,
+      };
+      remainingSeconds = SESSION_SECONDS;
+      setStatus("Session started.");
+      updateTimerUI();
+
+      intervalId = setInterval(() => {
+        remainingSeconds -= 1;
+        updateTimerUI();
+
+        if (remainingSeconds <= 0) {
+          stopTimerInterval();
+          finishSession("Timer complete. Please log your session.");
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      if (!activeSession) {
+        return;
+      }
+
+      activeSession.resetCount += 1;
+      remainingSeconds = SESSION_SECONDS;
+      setStatus("Timer reset to 25:00.");
+      updateTimerUI();
+    }
+
+    function finishSession(message) {
+      if (!activeSession) {
+        return;
+      }
+
+      stopTimerInterval();
+      const endedAt = new Date().toISOString();
+      const elapsedSeconds = Math.max(0, Math.floor((new Date(endedAt) - new Date(activeSession.startedAt)) / 1000));
+
+      activeSession.endedAt = endedAt;
+      activeSession.elapsedSeconds = elapsedSeconds;
+
+      setStatus(message);
+      openLogPrompt();
+    }
+
+    function endSessionEarly() {
+      if (!activeSession) {
+        return;
+      }
+      finishSession("Session ended. Please log your session.");
+    }
+
+    function openLogPrompt() {
+      logErrorEl.textContent = "";
+      logModal.classList.add("open");
+      fetchCourses();
+    }
+
+    function closeLogPrompt() {
+      logModal.classList.remove("open");
+    }
+
+    async function saveSessionLog() {
+      if (!activeSession) {
+        return;
+      }
+
+      const courseId = Number(logCourseSelect.value);
+      if (!courseId) {
+        logErrorEl.textContent = "Choose a course before saving.";
+        return;
+      }
+
+      const payload = {
+        courseId,
+        startedAt: activeSession.startedAt,
+        endedAt: activeSession.endedAt,
+        elapsedSeconds: activeSession.elapsedSeconds,
+        resetCount: activeSession.resetCount,
+      };
+
+      try {
+        const response = await fetch("/api/sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to save session log");
+        }
+
+        closeLogPrompt();
+        activeSession = null;
+        remainingSeconds = SESSION_SECONDS;
+        updateTimerUI();
+        setStatus("Session logged successfully.");
+        await loadSessionLogs();
+      } catch (error) {
+        logErrorEl.textContent = "Could not save the session. Try again.";
+      }
+    }
+
+    async function loadSessionLogs() {
+      sessionList.innerHTML = "";
+      try {
+        const response = await fetch("/api/sessions?limit=20");
+        if (!response.ok) {
+          throw new Error("Failed to fetch session logs");
+        }
+
+        const logs = await response.json();
+
+        if (!logs.length) {
+          sessionList.innerHTML = '<li class="small">No logged sessions yet.</li>';
+          return;
+        }
+
+        logs.forEach((session) => {
+          const li = document.createElement("li");
+          li.className = "session-item";
+
+          const minutes = (session.elapsed_seconds / 60).toFixed(1);
+          li.innerHTML = `
+            <div class="session-course">
+              <span class="swatch" style="background:${session.course_color}"></span>
+              <span>${session.course_name}</span>
+            </div>
+            <div class="small">${formatDateTime(session.started_at)} - ${formatDateTime(session.ended_at)}</div>
+            <div class="small">Duration: ${minutes} min · Resets: ${session.reset_count}</div>
+          `;
+          sessionList.appendChild(li);
+        });
+      } catch (error) {
+        sessionList.innerHTML = '<li class="small">Unable to load session logs.</li>';
+      }
+    }
+
+    startBtn.addEventListener("click", startSession);
+    resetBtn.addEventListener("click", resetTimer);
+    endBtn.addEventListener("click", endSessionEarly);
+    refreshSessionsBtn.addEventListener("click", loadSessionLogs);
+    saveLogBtn.addEventListener("click", saveSessionLog);
+
+    cancelLogBtn.addEventListener("click", () => {
+      closeLogPrompt();
+      activeSession = null;
+      remainingSeconds = SESSION_SECONDS;
+      updateTimerUI();
+      setStatus("Session ended without logging.", true);
+    });
+
+    updateTimerUI();
+    fetchCourses();
+    loadSessionLogs();
+  </script>
+</body>
+</html>

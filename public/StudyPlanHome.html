@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Planner</title>
+  <style>
+    :root {
+      --oatmeal: #F5F1E9;
+      --sage: #B2AC88;
+      --terracotta: #E2A690;
+      --sky: #D1E3E7;
+      --espresso: #3C2F2F;
+      --muted: #6b5e5e;
+      --paper: #fbf8f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--espresso);
+      background:
+        radial-gradient(circle at 12% 9%, #ffffff 0%, transparent 30%),
+        radial-gradient(circle at 92% 12%, #eef5f6 0%, transparent 26%),
+        linear-gradient(170deg, var(--oatmeal) 0%, #f8f5ee 52%, #f2eee4 100%);
+      font-family: "Nunito", "Avenir Next Rounded", "Segoe UI Rounded", "Trebuchet MS", sans-serif;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 2.6rem 1.3rem 3.6rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 0.75rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      border: none;
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      color: var(--espresso);
+      background: #ffffffc9;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(60, 47, 47, 0.08);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(180deg, var(--sage), #9f9877);
+      color: var(--espresso);
+    }
+
+    .hero {
+      margin-bottom: 1rem;
+      padding: 1.8rem 1.9rem;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(120deg, #ffffffd9, #fbf7ef);
+      box-shadow: 0 20px 60px rgba(60, 47, 47, 0.09);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.1rem;
+      color: var(--espresso);
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle {
+      margin: 0.4rem 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.3rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+
+    .card {
+      background: var(--paper);
+      border: none;
+      border-radius: 30px;
+      padding: 1.4rem;
+      box-shadow: 0 22px 65px rgba(60, 47, 47, 0.08);
+    }
+
+    .card h2 {
+      margin: 0 0 0.8rem;
+      font-size: 1.16rem;
+      color: var(--espresso);
+    }
+
+    form {
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.28rem;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 28px;
+      padding: 0.82rem 1rem;
+      font-size: 0.95rem;
+      background: #fffdf9;
+      color: var(--espresso);
+      font-family: inherit;
+      box-shadow: 0 10px 35px rgba(60, 47, 47, 0.06);
+    }
+
+    input[type="color"] {
+      height: 52px;
+      padding: 0.3rem;
+      cursor: pointer;
+    }
+
+    button {
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(180deg, var(--sage), #9f9877);
+      color: var(--espresso);
+      transition: transform 120ms ease, filter 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+    }
+
+    .danger-btn {
+      width: auto;
+      font-size: 0.8rem;
+      padding: 0.52rem 0.9rem;
+      background: linear-gradient(180deg, var(--terracotta), #d88f77);
+      margin-left: 0.6rem;
+      border-radius: 999px;
+    }
+
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .list li {
+      background: #fff;
+      border: none;
+      border-radius: 26px;
+      padding: 0.92rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 12px 36px rgba(60, 47, 47, 0.07);
+    }
+
+    .course-meta,
+    .event-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 99px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      flex: 0 0 14px;
+    }
+
+    .pill {
+      font-size: 0.76rem;
+      padding: 0.26rem 0.65rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border: none;
+      background: #f4eee4;
+      color: #6a5c53;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.91rem;
+    }
+
+    .calendar-card {
+      margin-top: 1rem;
+    }
+
+    .calendar-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      gap: 0.45rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      width: auto;
+      padding: 0.62rem 1rem;
+      background: #ffffffd9;
+      color: var(--espresso);
+      border: none;
+      font-weight: 600;
+      border-radius: 999px;
+    }
+
+    .tool-btn.active {
+      background: linear-gradient(180deg, var(--sky), #bdd5db);
+      color: var(--espresso);
+    }
+
+    #calendar-title {
+      margin: 0;
+      font-size: 1.1rem;
+      min-width: 180px;
+      color: var(--espresso);
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.4rem;
+    }
+
+    .weekday {
+      text-align: center;
+      font-size: 0.82rem;
+      color: #574c42;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.2rem;
+    }
+
+    .day-cell {
+      min-height: 128px;
+      background: #fffdf8;
+      border: none;
+      border-radius: 26px;
+      padding: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.42rem;
+      box-shadow: 0 16px 42px rgba(60, 47, 47, 0.07);
+    }
+
+    .day-cell.today {
+      box-shadow:
+        0 16px 42px rgba(60, 47, 47, 0.07),
+        inset 0 0 0 3px var(--terracotta);
+    }
+
+    .day-cell.outside {
+      background: #f6f1e8;
+      color: #9a8f82;
+    }
+
+    .day-number {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #4a3f35;
+    }
+
+    .calendar-event {
+      border: none;
+      border-left: 6px solid transparent;
+      border-radius: 24px;
+      font-size: 0.79rem;
+      padding: 0.4rem 0.55rem;
+      line-height: 1.2;
+      background: #ffffff;
+      box-shadow: 0 8px 25px rgba(60, 47, 47, 0.07);
+    }
+
+    .calendar-event-title {
+      font-weight: 700;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .calendar-event-meta {
+      color: #5f564d;
+      font-size: 0.74rem;
+    }
+
+    @media (max-width: 860px) {
+      .day-cell {
+        min-height: 110px;
+      }
+
+      .calendar-weekdays .weekday {
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1.5rem 0.85rem 2.4rem;
+      }
+
+      .hero {
+        padding: 1.25rem;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .day-cell {
+        min-height: 96px;
+      }
+
+      .calendar-event {
+        font-size: 0.72rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <div class="nav-links">
+        <a class="nav-link active" href="/">Planner</a>
+        <a class="nav-link" href="/sessions">Sessions</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Earthy Study Planner</h1>
+      <p class="subtitle">Color-code your courses and view every assignment, quiz, and test in a calm weekly or monthly calendar.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Add Course</h2>
+        <form id="course-form">
+          <div>
+            <label for="course-name">Course Name</label>
+            <input id="course-name" type="text" placeholder="Biology 101" required />
+          </div>
+          <div>
+            <label for="current-grade">Current Grade (%)</label>
+            <input id="current-grade" type="number" min="0" max="100" step="0.01" placeholder="92.5" required />
+          </div>
+          <div>
+            <label for="course-color">Course Color</label>
+            <input id="course-color" type="color" value="#7A9E7E" required />
+          </div>
+          <button type="submit">Add Course</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Add Coursework Date</h2>
+        <form id="event-form">
+          <div>
+            <label for="event-course">Course</label>
+            <select id="event-course" required></select>
+          </div>
+          <div>
+            <label for="event-type">Type</label>
+            <select id="event-type" required>
+              <option value="assignment">Assignment</option>
+              <option value="quiz">Quiz</option>
+              <option value="test">Test</option>
+            </select>
+          </div>
+          <div>
+            <label for="event-title">Title</label>
+            <input id="event-title" type="text" placeholder="Chapter 3 Quiz" required />
+          </div>
+          <div>
+            <label for="event-date">Due/Test Date</label>
+            <input id="event-date" type="date" required />
+          </div>
+          <button type="submit">Add Date</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="grid" style="margin-top: 1rem;">
+      <article class="card">
+        <h2>Courses</h2>
+        <ul id="course-list" class="list"></ul>
+      </article>
+
+      <article class="card">
+        <h2>Upcoming Items</h2>
+        <ul id="event-list" class="list"></ul>
+      </article>
+    </section>
+
+    <section class="card calendar-card">
+      <h2>Calendar</h2>
+      <div class="calendar-toolbar">
+        <div class="toolbar-left">
+          <button class="tool-btn" id="prev-btn" type="button">Previous</button>
+          <button class="tool-btn" id="today-btn" type="button">Today</button>
+          <button class="tool-btn" id="next-btn" type="button">Next</button>
+        </div>
+        <h3 id="calendar-title"></h3>
+        <div class="toolbar-right">
+          <button class="tool-btn active" id="month-view-btn" type="button">Monthly</button>
+          <button class="tool-btn" id="week-view-btn" type="button">Weekly</button>
+        </div>
+      </div>
+
+      <div class="calendar-weekdays" id="weekday-header"></div>
+      <div class="calendar-grid" id="calendar-grid"></div>
+    </section>
+  </main>
+
+  <script>
+    const courseForm = document.getElementById("course-form");
+    const eventForm = document.getElementById("event-form");
+    const courseList = document.getElementById("course-list");
+    const eventList = document.getElementById("event-list");
+    const eventCourseSelect = document.getElementById("event-course");
+    const courseColorInput = document.getElementById("course-color");
+
+    const calendarTitle = document.getElementById("calendar-title");
+    const calendarGrid = document.getElementById("calendar-grid");
+    const weekdayHeader = document.getElementById("weekday-header");
+    const monthViewBtn = document.getElementById("month-view-btn");
+    const weekViewBtn = document.getElementById("week-view-btn");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const todayBtn = document.getElementById("today-btn");
+
+    const weekdayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+    let courses = [];
+    let events = [];
+    let nextCourseId = 1;
+    let nextEventId = 1;
+    let currentView = "month";
+    let calendarDate = new Date();
+
+    const earthyCoursePalette = [
+      "#7A9E7E", "#9B7E61", "#6D8C7D", "#8A6F50", "#5D7A65", "#8F9C6A", "#AA8864", "#6D7F8A"
+    ];
+
+    function toDateKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function parseDateKey(dateKey) {
+      const [y, m, d] = dateKey.split("-").map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    function getStartOfWeek(date) {
+      const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const day = d.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      d.setDate(d.getDate() + diff);
+      return d;
+    }
+
+    function addDays(date, days) {
+      const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      d.setDate(d.getDate() + days);
+      return d;
+    }
+
+    function getEventsByDateKey() {
+      const map = new Map();
+      events.forEach((event) => {
+        if (!map.has(event.date)) {
+          map.set(event.date, []);
+        }
+        map.get(event.date).push(event);
+      });
+      return map;
+    }
+
+    function courseById(courseId) {
+      return courses.find((course) => course.id === courseId);
+    }
+
+    async function loadCoursesFromApi() {
+      try {
+        const response = await fetch("/api/courses");
+        if (!response.ok) {
+          throw new Error("Failed to load courses");
+        }
+        const data = await response.json();
+        courses = data.map((course) => ({
+          id: Number(course.id),
+          name: course.course_name,
+          grade: Number(course.current_grade),
+          color: course.course_color,
+        }));
+        const maxId = courses.reduce((max, course) => Math.max(max, course.id), 0);
+        nextCourseId = maxId + 1;
+      } catch (error) {
+        courses = [];
+        nextCourseId = 1;
+      }
+    }
+
+    function buildDayCell(dayDate, currentMonth, eventsByDate) {
+      const dateKey = toDateKey(dayDate);
+      const dayEvents = eventsByDate.get(dateKey) || [];
+      const isToday = dateKey === toDateKey(new Date());
+      const outside = dayDate.getMonth() !== currentMonth;
+
+      const cell = document.createElement("div");
+      cell.className = "day-cell";
+      if (outside && currentView === "month") {
+        cell.classList.add("outside");
+      }
+      if (isToday) {
+        cell.classList.add("today");
+      }
+
+      const number = document.createElement("div");
+      number.className = "day-number";
+      number.textContent = dayDate.getDate();
+      cell.appendChild(number);
+
+      dayEvents
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .forEach((event) => {
+          const course = courseById(event.courseId);
+          const eventEl = document.createElement("div");
+          eventEl.className = "calendar-event";
+          eventEl.style.borderLeftColor = course ? course.color : "#888";
+
+          const title = document.createElement("span");
+          title.className = "calendar-event-title";
+          title.textContent = event.title;
+
+          const meta = document.createElement("span");
+          meta.className = "calendar-event-meta";
+          meta.textContent = `${event.type.toUpperCase()} · ${course ? course.name : "Unknown"}`;
+
+          eventEl.appendChild(title);
+          eventEl.appendChild(meta);
+          cell.appendChild(eventEl);
+        });
+
+      return cell;
+    }
+
+    function renderWeekdayHeader() {
+      weekdayHeader.innerHTML = "";
+      weekdayNames.forEach((weekday) => {
+        const el = document.createElement("div");
+        el.className = "weekday";
+        el.textContent = weekday;
+        weekdayHeader.appendChild(el);
+      });
+    }
+
+    function renderCalendar() {
+      renderWeekdayHeader();
+      calendarGrid.innerHTML = "";
+      const eventsByDate = getEventsByDateKey();
+
+      if (currentView === "month") {
+        const year = calendarDate.getFullYear();
+        const month = calendarDate.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const monthLabel = firstDay.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+        calendarTitle.textContent = monthLabel;
+
+        const gridStart = getStartOfWeek(firstDay);
+        for (let i = 0; i < 42; i += 1) {
+          const dayDate = addDays(gridStart, i);
+          const cell = buildDayCell(dayDate, month, eventsByDate);
+          calendarGrid.appendChild(cell);
+        }
+      } else {
+        const weekStart = getStartOfWeek(calendarDate);
+        const weekEnd = addDays(weekStart, 6);
+        const labelStart = weekStart.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+        const labelEnd = weekEnd.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+        calendarTitle.textContent = `${labelStart} - ${labelEnd}`;
+
+        for (let i = 0; i < 7; i += 1) {
+          const dayDate = addDays(weekStart, i);
+          const cell = buildDayCell(dayDate, dayDate.getMonth(), eventsByDate);
+          calendarGrid.appendChild(cell);
+        }
+      }
+    }
+
+    function renderCourses() {
+      courseList.innerHTML = "";
+      eventCourseSelect.innerHTML = "";
+
+      if (courses.length === 0) {
+        courseList.innerHTML = '<li class="muted">No courses yet.</li>';
+        eventCourseSelect.innerHTML = '<option value="">Add a course first</option>';
+        eventCourseSelect.disabled = true;
+        return;
+      }
+
+      eventCourseSelect.disabled = false;
+
+      courses.forEach((course) => {
+        const li = document.createElement("li");
+
+        const left = document.createElement("div");
+        left.className = "course-meta";
+        left.innerHTML = `
+          <span class="swatch" style="background:${course.color}"></span>
+          <strong>${course.name}</strong>
+          <span class="muted">Grade ${course.grade.toFixed(2)}%</span>
+        `;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "danger-btn";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.type = "button";
+        deleteBtn.addEventListener("click", async () => {
+          try {
+            const response = await fetch(`/api/courses/${course.id}`, { method: "DELETE" });
+            if (!response.ok) {
+              throw new Error("Failed to delete course");
+            }
+            courses = courses.filter((c) => c.id !== course.id);
+            events = events.filter((e) => e.courseId !== course.id);
+            renderCourses();
+            renderEvents();
+            renderCalendar();
+          } catch (error) {
+            // Keep current UI state if delete fails.
+          }
+        });
+
+        li.appendChild(left);
+        li.appendChild(deleteBtn);
+        courseList.appendChild(li);
+
+        const option = document.createElement("option");
+        option.value = course.id;
+        option.textContent = course.name;
+        eventCourseSelect.appendChild(option);
+      });
+    }
+
+    function renderEvents() {
+      eventList.innerHTML = "";
+
+      if (events.length === 0) {
+        eventList.innerHTML = '<li class="muted">No assignments, quizzes, or tests yet.</li>';
+        return;
+      }
+
+      const sortedEvents = [...events].sort((a, b) => parseDateKey(a.date) - parseDateKey(b.date));
+      sortedEvents.forEach((event) => {
+        const course = courseById(event.courseId);
+        const li = document.createElement("li");
+
+        const left = document.createElement("div");
+        left.className = "event-meta";
+        left.innerHTML = `
+          <span class="swatch" style="background:${course ? course.color : "#808080"}"></span>
+          <strong>${event.title}</strong>
+          <span class="pill">${event.type}</span>
+          <span class="muted">${course ? course.name : "Unknown"} · ${event.date}</span>
+        `;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "danger-btn";
+        deleteBtn.type = "button";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", () => {
+          events = events.filter((e) => e.id !== event.id);
+          renderEvents();
+          renderCalendar();
+        });
+
+        li.appendChild(left);
+        li.appendChild(deleteBtn);
+        eventList.appendChild(li);
+      });
+    }
+
+    courseForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("course-name").value.trim();
+      const grade = parseFloat(document.getElementById("current-grade").value);
+      const color = courseColorInput.value;
+
+      if (!name || Number.isNaN(grade) || grade < 0 || grade > 100 || !color) {
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/courses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            courseName: name,
+            currentGrade: grade,
+            courseColor: color,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to create course");
+        }
+
+        const created = await response.json();
+        courses.push({
+          id: Number(created.id),
+          name: created.course_name,
+          grade: Number(created.current_grade),
+          color: created.course_color,
+        });
+
+        nextCourseId = Math.max(nextCourseId, Number(created.id) + 1);
+        courseForm.reset();
+        courseColorInput.value = earthyCoursePalette[courses.length % earthyCoursePalette.length];
+        renderCourses();
+        renderEvents();
+        renderCalendar();
+      } catch (error) {
+        // Keep form values in place if request fails.
+      }
+    });
+
+    eventForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const courseId = Number(document.getElementById("event-course").value);
+      const type = document.getElementById("event-type").value;
+      const title = document.getElementById("event-title").value.trim();
+      const date = document.getElementById("event-date").value;
+
+      if (!courseId || !type || !title || !date) {
+        return;
+      }
+
+      events.push({ id: nextEventId++, courseId, type, title, date });
+      eventForm.reset();
+      renderEvents();
+      renderCalendar();
+    });
+
+    monthViewBtn.addEventListener("click", () => {
+      currentView = "month";
+      monthViewBtn.classList.add("active");
+      weekViewBtn.classList.remove("active");
+      renderCalendar();
+    });
+
+    weekViewBtn.addEventListener("click", () => {
+      currentView = "week";
+      weekViewBtn.classList.add("active");
+      monthViewBtn.classList.remove("active");
+      renderCalendar();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (currentView === "month") {
+        calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1);
+      } else {
+        calendarDate = addDays(calendarDate, -7);
+      }
+      renderCalendar();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentView === "month") {
+        calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1);
+      } else {
+        calendarDate = addDays(calendarDate, 7);
+      }
+      renderCalendar();
+    });
+
+    todayBtn.addEventListener("click", () => {
+      calendarDate = new Date();
+      renderCalendar();
+    });
+
+    async function initializePlanner() {
+      courseColorInput.value = earthyCoursePalette[0];
+      await loadCoursesFromApi();
+      renderCourses();
+      renderEvents();
+      renderCalendar();
+    }
+
+    initializePlanner();
+  </script>
+</body>
+</html>

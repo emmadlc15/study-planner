@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Priorities</title>
+  <link rel="stylesheet" href="/Priorities.css" />
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1>Study Planner</h1>
+    </section>
+
+    <div class="topbar">
+      <div class="nav-links">
+        <a class="nav-link" href="/">Planner</a>
+        <a class="nav-link" href="/sessions">Sessions</a>
+        <a class="nav-link" href="/history">History</a>
+        <a class="nav-link active" href="/priorities">Priorities</a>
+      </div>
+    </div>
+
+    <section class="card">
+      <h2>Study Priorities</h2>
+      <p>Set each topic's confidence, importance, exam date, and last review date to calculate a Study Priority Score (SPS).</p>
+      <div class="controls">
+        <div>
+          <label for="daily-minutes">Daily Minutes Available</label>
+          <input id="daily-minutes" type="number" min="0" max="1440" value="120" />
+        </div>
+        <button id="refresh-btn" class="subtle-btn" type="button">Recalculate</button>
+      </div>
+      <p id="status" class="status">Loading priorities...</p>
+    </section>
+
+    <section id="priority-list" class="priority-list"></section>
+
+    <section class="card">
+      <h2>How Each Metric Affects SPS</h2>
+      <p>SPS combines four normalized metrics to decide what you should study first.</p>
+      <ul class="explain-list">
+        <li><strong>Urgency (35%)</strong>: How close the exam date is. Needed so near-term deadlines move up in priority.</li>
+        <li><strong>Knowledge Gap (30%)</strong>: Based on confidence (lower confidence = higher gap). Needed to target weak areas.</li>
+        <li><strong>Importance (20%)</strong>: User-rated impact/value of the topic. Needed so high-impact topics get more attention.</li>
+        <li><strong>Forgetting Risk (15%)</strong>: Based on days since last review. Needed to prevent decay on older material.</li>
+      </ul>
+      <p class="status">Recommended study minutes are then split across topics by each topic's SPS share.</p>
+    </section>
+  </main>
+
+  <script src="/Priorities.js"></script>
+</body>
+</html>

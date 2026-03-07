@@ -1,0 +1,236 @@
+:root {
+  --desert-rose: #D48C8C;
+  --soft-eucalyptus: #94A684;
+  --muted-cornflower: #A3B7D0;
+  --warm-parchment: #FDF8F5;
+  --deep-raisin: #4A3B3B;
+  --surface: #fffaf8;
+  --surface-soft: #fff4f2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: "Nunito", "Avenir Next Rounded", "Segoe UI Rounded", "Trebuchet MS", sans-serif;
+  color: var(--deep-raisin);
+  background:
+    radial-gradient(circle at 8% 12%, rgba(212, 140, 140, 0.12) 0%, transparent 28%),
+    radial-gradient(circle at 92% 8%, rgba(148, 166, 132, 0.14) 0%, transparent 24%),
+    linear-gradient(170deg, var(--warm-parchment) 0%, #fdf5f2 100%);
+  min-height: 100vh;
+}
+
+.container {
+  width: min(1100px, 100%);
+  margin: 0;
+  padding: 1.3rem 1.2rem 3rem;
+}
+
+.hero,
+.card {
+  background: var(--surface);
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 20px 52px rgba(74, 59, 59, 0.09);
+}
+
+.hero {
+  padding: 1.7rem 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--deep-raisin);
+}
+
+.topbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  text-decoration: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.52rem 1rem;
+  color: var(--deep-raisin);
+  background: #fff7f5;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 12px 34px rgba(74, 59, 59, 0.08);
+}
+
+.nav-link.active {
+  background: linear-gradient(180deg, var(--desert-rose), #cb8383);
+  color: var(--deep-raisin);
+}
+
+.card {
+  padding: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+input,
+select,
+button {
+  border-radius: 24px;
+  border: none;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.93rem;
+  color: var(--deep-raisin);
+  background: #fff9f7;
+  box-shadow: 0 10px 34px rgba(74, 59, 59, 0.07);
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-weight: 700;
+  background: linear-gradient(180deg, var(--desert-rose), #cb8383);
+}
+
+.subtle-btn {
+  background: linear-gradient(180deg, var(--muted-cornflower), #95aec8);
+}
+
+.status {
+  margin: 0.6rem 0 0;
+  font-size: 0.9rem;
+}
+
+.explain-list {
+  margin: 0.7rem 0 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.91rem;
+}
+
+.priority-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.priority-item {
+  border-radius: 26px;
+  background: var(--surface-soft);
+  padding: 1rem;
+  box-shadow: 0 14px 40px rgba(74, 59, 59, 0.08);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.course-line {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  font-size: 0.88rem;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  flex: 0 0 12px;
+}
+
+.pill {
+  font-size: 0.75rem;
+  padding: 0.26rem 0.6rem;
+  border-radius: 999px;
+  background: #e8efe3;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+.score-row {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.metric {
+  font-size: 0.76rem;
+  padding: 0.28rem 0.58rem;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.recommend {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-grid .full {
+  grid-column: 1 / -1;
+}
+
+.item-message {
+  min-height: 1rem;
+  font-size: 0.85rem;
+}
+
+.empty {
+  font-size: 0.92rem;
+}
+
+@media (max-width: 620px) {
+  .container {
+    padding: 1.2rem 0.8rem 2.3rem;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

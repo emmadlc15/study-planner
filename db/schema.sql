@@ -4,6 +4,7 @@
 -- 2) Assignments, quizzes, and tests linked to each course with dates
 
 DROP TABLE IF EXISTS study_sessions;
+DROP TABLE IF EXISTS study_priority_inputs;
 DROP TABLE IF EXISTS coursework_items;
 DROP TABLE IF EXISTS courses;
 
@@ -35,8 +36,21 @@ CREATE TABLE study_sessions (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE study_priority_inputs (
+  coursework_item_id INTEGER PRIMARY KEY REFERENCES coursework_items(id) ON DELETE CASCADE,
+  confidence SMALLINT NOT NULL CHECK (confidence BETWEEN 1 AND 5),
+  importance SMALLINT NOT NULL CHECK (importance BETWEEN 1 AND 5),
+  exam_date DATE NOT NULL,
+  last_reviewed_at DATE NOT NULL,
+  estimated_time_needed_minutes INTEGER NOT NULL CHECK (estimated_time_needed_minutes > 0),
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
 CREATE INDEX idx_coursework_course_id ON coursework_items(course_id);
 CREATE INDEX idx_coursework_due_date ON coursework_items(due_date);
 CREATE INDEX idx_coursework_completed_at ON coursework_items(completed_at);
 CREATE INDEX idx_study_sessions_course_id ON study_sessions(course_id);
 CREATE INDEX idx_study_sessions_started_at ON study_sessions(started_at);
+CREATE INDEX idx_priority_exam_date ON study_priority_inputs(exam_date);
+CREATE INDEX idx_priority_last_reviewed_at ON study_priority_inputs(last_reviewed_at);

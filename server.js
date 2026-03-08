@@ -9,13 +9,23 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: "localhost",
-  database: "study_planner",
-  password: process.env.DB_PASSWORD,
-  port: 5432,
-});
+const PORT = Number(process.env.PORT) || 3000;
+const useSsl = process.env.DB_SSL === "true" || Boolean(process.env.DATABASE_URL);
+
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: useSsl ? { rejectUnauthorized: false } : false,
+      }
+    : {
+        user: process.env.DB_USER,
+        host: process.env.DB_HOST || "localhost",
+        database: process.env.DB_NAME || "study_planner",
+        password: process.env.DB_PASSWORD,
+        port: Number(process.env.DB_PORT) || 5432,
+      }
+);
 
 const MAX_URGENCY_DAYS = 60;
 const MAX_FORGETTING_DAYS = 30;
@@ -224,6 +234,20 @@ app.get("/test", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Database error");
+  }
+});
+
+app.get("/healthz", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+app.get("/readyz", async (req, res) => {
+  try {
+    await pool.query("SELECT 1");
+    return res.status(200).json({ status: "ready" });
+  } catch (err) {
+    console.error(err);
+    return res.status(503).json({ status: "not_ready" });
   }
 });
 
@@ -643,7 +667,7 @@ app.patch("/api/priorities/:itemId", async (req, res) => {
 });
 
 ensureSchemaUpdates().finally(() => {
-  app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
   });
 });
